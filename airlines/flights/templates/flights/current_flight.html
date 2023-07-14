@@ -1,0 +1,32 @@
+{% extends 'flights/indes.html' %}
+
+{% block title %}
+    <title>Current_Flight</title>
+{% endblock %}
+{% block body %}
+    <h1>Current flight</h1>
+    <ul>
+        <li>Origin{{flight.origin}}</li>
+        <li>Destination{{flight.destination}}</li>
+        <li>Duration{{flight.duration}}</li>
+    </ul>
+    <h2>Passengers</h2>
+    <ul>
+        {% for elem in passengers %}
+            <li>{{elem.first}} {{elem.last}} {{flight.destination}}</li>
+        {% empty %}
+                <li>No passengers.</li>
+        {% endfor %}
+    </ul>
+    <h2>Add Passenger</h2>
+    <form action="{% url 'book' flight.id %}" method="post">
+        {% csrf_token %}
+        <select name="passenger">
+            {% for passenger in non_passengers %}
+                <option value="{{ passenger.id }}">{{ passenger.first }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+    <a href="{% url 'main' %}">Назад</a>
+{% endblock %}
